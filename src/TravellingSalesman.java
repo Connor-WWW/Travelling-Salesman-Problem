@@ -72,10 +72,11 @@ public final class TravellingSalesman {
          * limit with very far points. At the same time, store their orginial
          * euclidean connected distances.
          */
+        System.out.println("Step 1: Generating dataSet");
         Sequence<Path> dataSet = new Sequence1L<>();
         Sequence<Double> connectedDist = new Sequence1L<>();
         final int totalPaths = 50;
-        final int minPathLength = 3;
+        final int minPathLength = 10;
         final int maxPathLength = 100;
         final int pointLowerBound = -1000;
         final int pointUpperBound = 1000;
@@ -91,11 +92,15 @@ public final class TravellingSalesman {
                     pointUpperBound);
             connectedDist.add(i, current.totalDistanceConnected());
             dataSet.add(i, current);
+            // Output % of complete.
+            System.out.println("Step 1 Percent complete: "
+                    + Math.floor(((i + 1) / (double) totalPaths) * 100) + "%");
         }
         /*
          * Step 2: Run nearest neighbor on all of these, storing their connected
          * distance afterwards into another sequence.
          */
+        System.out.println("Step 2: Running Nearest Neighbor");
         Sequence<Double> nnTotals = new Sequence1L<>();
         for (int i = 0; i < totalPaths; i++) {
             // We want to do all calculations on a copy of each path so that
@@ -105,12 +110,16 @@ public final class TravellingSalesman {
             copy.copyFrom(current);
             copy.optimizeDistances(OptimizationMethod.NEAREST_NEIGHBOR);
             nnTotals.add(i, copy.totalDistanceConnected());
+            // Output % of complete.
+            System.out.println("Step 2 Percent complete: "
+                    + Math.floor(((i + 1) / (double) totalPaths) * 100) + "%");
         }
 
         /*
          * Step 3: Run nearest neighbor aggregate on all of these, storing their
          * connected distance afterwards into another sequence.
          */
+        System.out.println("Step 3: Running Nearest Neighbor Aggregate");
         Sequence<Double> nnAgTotals = new Sequence1L<>();
         for (int i = 0; i < totalPaths; i++) {
             // We want to do all calculations on a copy of each path so that
@@ -121,12 +130,16 @@ public final class TravellingSalesman {
             copy.optimizeDistances(
                     OptimizationMethod.NEAREST_NEIGHBOR_AGGREGATE);
             nnAgTotals.add(i, copy.totalDistanceConnected());
+            // Output % of complete.
+            System.out.println("Step 3 Percent complete: "
+                    + Math.floor(((i + 1) / (double) totalPaths) * 100) + "%");
         }
 
         /*
          * Step 4: Run nearest neighbor both ends on all of these, storing their
          * connected distance afterwards into another sequence.
          */
+        System.out.println("Step 4: Running Nearest Neighbor Both Ends");
         Sequence<Double> nnBothEndsTotals = new Sequence1L<>();
         for (int i = 0; i < totalPaths; i++) {
             // We want to do all calculations on a copy of each path so that
@@ -137,12 +150,17 @@ public final class TravellingSalesman {
             copy.optimizeDistances(
                     OptimizationMethod.NEAREST_NEIGHBOR_BOTH_ENDS);
             nnBothEndsTotals.add(i, copy.totalDistanceConnected());
+            // Output % of complete.
+            System.out.println("Step 4 Percent complete: "
+                    + Math.floor(((i + 1) / (double) totalPaths) * 100) + "%");
         }
 
         /*
          * Step 5: Run nearest neighbor both ends aggregate on all of these,
          * storing their connected distance afterwards into another sequence.
          */
+        System.out.println(
+                "Step 5: Running Nearest Neighbor Both Ends Aggregate");
         Sequence<Double> nnBothEndsAgTotals = new Sequence1L<>();
         for (int i = 0; i < totalPaths; i++) {
             // We want to do all calculations on a copy of each path so that
@@ -153,11 +171,15 @@ public final class TravellingSalesman {
             copy.optimizeDistances(
                     OptimizationMethod.NEAREST_NEIGHBOR_BOTH_ENDS_AGGREGATE);
             nnBothEndsAgTotals.add(i, copy.totalDistanceConnected());
+            // Output % of complete.
+            System.out.println("Step 5 Percent complete: "
+                    + Math.floor(((i + 1) / (double) totalPaths) * 100) + "%");
         }
 
         /*
          * Step 6: Display this data to our user!
          */
+        System.out.println("Step 6: Displaying Results!");
         int originalWins = 0;
         int nnWins = 0;
         int nnAgWins = 0;
