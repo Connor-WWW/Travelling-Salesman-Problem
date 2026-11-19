@@ -75,11 +75,11 @@ public final class TravellingSalesman {
         System.out.println("Step 1: Generating dataSet");
         Sequence<Path> dataSet = new Sequence1L<>();
         Sequence<Double> connectedDist = new Sequence1L<>();
-        final int totalPaths = 50;
+        final int totalPaths = 100;
         final int minPathLength = 10;
         final int maxPathLength = 100;
-        final int pointLowerBound = -1000;
-        final int pointUpperBound = 1000;
+        final int pointLowerBound = -10000;
+        final int pointUpperBound = 10000;
         Random rand = new Random1L();
         for (int i = 0; i < totalPaths; i++) {
             Path current = new Path1();
